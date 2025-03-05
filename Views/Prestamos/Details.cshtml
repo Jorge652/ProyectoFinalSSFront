@@ -1,0 +1,155 @@
+﻿@using System.Globalization;
+@model ProyectoSS.Models.Prestamo
+
+<!-- Estilos CSS -->
+<style>
+    /* Contenedor para el detalle del préstamo */
+    .details-container {
+        width: 80%;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Título de la página */
+        .details-container h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+    /* Estilo para los encabezados de las tablas */
+    .table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        text-align: left;
+        padding: 12px;
+    }
+
+    /* Estilo para las celdas de las tablas */
+    .table td {
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+        border: 1px solid #ddd;
+    }
+
+    /* Alternar colores de fila en la tabla de detalles */
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Efecto hover en las filas */
+    .table tbody tr:hover {
+        background-color: #e1e8f0;
+    }
+
+    /* Tabla de amortización */
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /* Estilo para los enlaces de acción */
+    .action-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .action-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+            .action-link a:hover {
+                text-decoration: underline;
+            }
+</style>
+<script>
+    // Deshabilitar la tecla F12
+    document.addEventListener("keydown", function(e) {
+        // F12 y las combinaciones Ctrl + Shift + I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+            alert("La inspección está deshabilitada.");
+        }
+    });
+
+    // Deshabilitar clic derecho (con el menú contextual)
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+        alert("El clic derecho está deshabilitado.");
+    });
+</script>
+
+<!-- Contenedor de los detalles del préstamo -->
+<div class="details-container">
+    <h2>Detalles del Préstamo</h2>
+
+    <!-- Tabla de detalles del préstamo -->
+    <table class="table table-bordered">
+        <tr>
+            <th>Monto</th>
+            <td>@Model.Monto.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+        </tr>
+        <tr>
+            <th>Plazo</th>
+            <td>@Model.Plazo meses</td>
+        </tr>
+        <tr>
+            <th>Tasa de Interés</th>
+            <td>@Model.TasaInteres %</td>
+        </tr>
+        <tr>
+            <th>Tipo de Pago</th>
+            <td>@Model.TipoPago</td>
+        </tr>
+        <tr>
+            <th>Fecha de Solicitud</th>
+            <td>@Model.FechaSolicitud.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td>@Model.Estado</td>
+        </tr>
+        <tr>
+            <th>Saldo Pendiente</th>
+            <td>@Model.SaldoPendiente.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+        </tr>
+    </table>
+
+    <!-- Tabla de amortización -->
+    <h3>Tabla de Amortización</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>N° Pago</th>
+                <th>Fecha de Pago</th>
+                <th>Pago Total</th>
+                <th>Interés Pagado</th>
+                <th>Capital A Pagar</th>
+                <th>Saldo Pendiente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.TablaAmortizacion as List<ProyectoSS.Controllers.Amortizacion>)
+            {
+                <tr>
+                    <td>@item.NumeroPago</td>
+                    <td>@item.FechaPago.ToShortDateString()</td>
+                    <td>@item.PagoTotal.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td>@item.InteresPagado.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td>@item.CapitalPagado.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td>@item.SaldoPendiente.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Enlace para volver -->
+    <div class="action-link">
+        @Html.ActionLink("Volver", "Index")
+    </div>
+</div>

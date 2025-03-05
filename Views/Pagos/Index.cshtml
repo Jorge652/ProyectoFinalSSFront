@@ -1,0 +1,129 @@
+﻿@model List<ProyectoSS.Models.Pago>
+
+@{
+    ViewBag.Title = "Pagos";
+    var usuario = (ProyectoSS.Models.Usuario)Session["usuario"];
+    bool esAdmin = usuario != null && usuario.Rol == 1; // Verificar si el usuario es administrador
+}
+<style>
+    /* Estilo para el título */
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+    }
+
+    /* Tabla mejorada */
+    .table {
+        width: 100%;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin-top: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Encabezado de la tabla */
+        .table th {
+            background-color: #007bff; /* Fondo azul */
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        /* Filas de la tabla */
+        .table td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    /* Fila al pasar el ratón (hover effect) */
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1; /* Color de fondo al pasar el ratón */
+    }
+
+    /* Filas alternadas en la tabla */
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #f9f9f9; /* Color de fondo de filas impares */
+    }
+
+    /* Estilo para los botones */
+    .btn-primary {
+        background-color: #007bff; /* Fondo azul */
+        border-color: #007bff; /* Borde azul */
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Color al pasar el ratón */
+            border-color: #0056b3; /* Borde al pasar el ratón */
+        }
+
+    /* Asegurar que la tabla sea responsive */
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>
+<h2 class="text-center mb-4">Pagos</h2>
+
+@if (esAdmin)
+{
+    <p class="text-center mb-3">Vista de administrador: Todos los pagos.</p>
+}
+else
+{
+    <p class="text-center mb-3">Vista de usuario: Tus pagos.</p>
+    <p class="text-center">
+        @Html.ActionLink("Pagar Préstamo", "Create", "Pagos", new { prestamoId = usuario.IdUsuario }, new { @class = "btn btn-primary" })
+    </p>
+}
+<script>
+    // Deshabilitar la tecla F12
+    document.addEventListener("keydown", function(e) {
+        // F12 y las combinaciones Ctrl + Shift + I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+            alert("La inspección está deshabilitada.");
+        }
+    });
+
+    // Deshabilitar clic derecho (con el menú contextual)
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+        alert("El clic derecho está deshabilitado.");
+    });
+</script>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>PrestamoId</th>
+                <th>UsuarioId</th>
+                <th>Monto</th>
+                <th>Fecha de Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pago in Model)
+            {
+                <tr>
+                    <td>@pago.Id</td>
+                    <td>@pago.PrestamoId</td>
+                    <td>@pago.UsuarioId</td>
+                    <td>@pago.Monto.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td> <!-- Formato en dólares -->
+                    <td>@pago.FechaPago.ToShortDateString()</td> <!-- Formato de fecha corta -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

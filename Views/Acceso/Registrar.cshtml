@@ -1,0 +1,180 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registrarse</title>
+
+    <!-- Bootstrap 4.1.3 y FontAwesome -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+
+    <style>
+        html {
+            margin: 0px;
+            padding: 40px;
+            height: 100%;
+        }
+
+        .user_card {
+            padding: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            max-height: 750px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .brand_logo {
+            max-width: 120px;
+            margin-bottom: 20px;
+        }
+
+        .input_user, .input_pass {
+            height: 45px;
+            font-size: 16px;
+        }
+
+        .login_btn {
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+            .login_btn:hover {
+                background-color: #0056b3;
+            }
+
+        .alert {
+            margin-top: 20px;
+        }
+
+        .links {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+            .links a {
+                color: #007bff;
+            }
+
+                .links a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<script>
+    // Deshabilitar la tecla F12
+    document.addEventListener("keydown", function (e) {
+        // F12 y las combinaciones Ctrl + Shift + I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+            alert("La inspección está deshabilitada.");
+        }
+    });
+
+    // Deshabilitar clic derecho (con el menú contextual)
+    document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        alert("El clic derecho está deshabilitado.");
+    });
+</script>
+
+<body>
+    <div class="container h-100">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="user_card">
+                <!-- Logo Formal -->
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <!-- Logo actualizado -->
+                        <img src="~/Content/imagenes/user.png" class="brand_logo" alt="Logo">
+                    </div>
+                </div>
+
+                <!-- Formulario de registro -->
+                <div class="form_container">
+                    <form action="@Url.Action("Registrar", "Acceso")" method="post" aria-label="Formulario de Registro">
+                        <!-- Campo para Correo -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text" aria-hidden="true"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" name="Correo" class="form-control input_user" placeholder="Correo" required aria-label="Correo electrónico">
+                        </div>
+
+                        <!-- Campo para Clave -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text" aria-hidden="true"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" name="Clave" class="form-control input_user" placeholder="Contraseña" required aria-label="Contraseña">
+                        </div>
+
+                        <!-- Campo para Confirmar Clave -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text" aria-hidden="true"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" name="ConfirmarClave" class="form-control input_pass" placeholder="Confirmar Contraseña" required aria-label="Confirmar Contraseña">
+                        </div>
+
+                        <!-- Campo para Nombres -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text" aria-hidden="true"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" name="Nombres" class="form-control input_user" placeholder="Nombres completos" required aria-label="Nombres completos">
+                        </div>
+
+                        <!-- Campo para Fecha de Nacimiento -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text" aria-hidden="true"><i class="fas fa-calendar-alt"></i></span>
+                            </div>
+                            <input type="date" name="FechaNacimiento" class="form-control input_user" required aria-label="Fecha de Nacimiento">
+                        </div>
+
+                        <!-- Mensaje de error -->
+                        @if (ViewData["Mensaje"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData["Mensaje"]
+                            </div>
+                        }
+
+                        <!-- Botón de registro -->
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn login_btn">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Enlace a inicio de sesión -->
+                <div class="mt-4">
+                    <div class="d-flex justify-content-center links">
+                        ¿Ya tienes una cuenta? <a href="@Url.Action("Login", "Acceso")" class="ml-2">Iniciar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap y JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/x+965DzO0rT7lX5h1gQVrD6f6y6vwQen+/q3h5l+v8VjVO5EXzA0U7vXjz0t" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-wm6fSoYh+Mw3eWq4cSyyIq9md0b7M6Zm5QOs6+rO+4V2kFVFx1he6HE4mkWa0erG" crossorigin="anonymous"></script>
+</body>
+</html>

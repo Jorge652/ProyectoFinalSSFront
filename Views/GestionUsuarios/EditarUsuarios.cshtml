@@ -1,0 +1,122 @@
+﻿@model List<ProyectoSS.Models.Usuario>
+
+@{
+    ViewBag.Title = "Editar Usuarios";
+}
+<style>
+    /* Estilo para el título de la página */
+    h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+    }
+
+    /* Estilo para las tablas */
+    .table {
+        width: 100%;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin-top: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th {
+            background-color: #007bff; /* Fondo azul */
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .table td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    /* Fila al pasar el ratón (hover effect) */
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1; /* Color de fondo al pasar el ratón */
+    }
+
+    /* Filas alternadas en la tabla */
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #f9f9f9; /* Color de fondo de filas impares */
+    }
+
+    /* Estilo para el botón de editar */
+    .btn-primary {
+        background-color: #007bff; /* Fondo azul */
+        border-color: #007bff; /* Borde azul */
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Color al pasar el ratón */
+            border-color: #0056b3; /* Borde al pasar el ratón */
+        }
+
+    /* Asegurar que la tabla sea responsive */
+    .table-responsive {
+        margin-top: 20px;
+    }
+
+    /* Estilos de la página */
+    .container {
+        margin-top: 20px;
+    }
+</style>
+<h2 class="text-center mb-4">Editar Usuarios</h2>
+<script>
+    // Deshabilitar la tecla F12
+    document.addEventListener("keydown", function(e) {
+        // F12 y las combinaciones Ctrl + Shift + I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+            alert("La inspección está deshabilitada.");
+        }
+    });
+
+    // Deshabilitar clic derecho (con el menú contextual)
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+        alert("El clic derecho está deshabilitado.");
+    });
+</script>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Model)
+                {
+                    <tr>
+                        <td>@usuario.IdUsuario</td>
+                        <td>@usuario.Nombres</td>
+                        <td>@usuario.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                        <td>@usuario.Correo</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Editar", "GestionUsuarios", new { id = usuario.IdUsuario }, new { @class = "btn btn-primary btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

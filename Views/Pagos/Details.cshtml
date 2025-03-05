@@ -1,0 +1,22 @@
+﻿@model ProyectoSS.Models.Pago
+@{
+    ViewBag.Title = "Detalles del Pago";
+}
+<h2>Detalles del Pago</h2>
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>@Model.Id</dd>
+        <dt>Prestamo Id</dt>
+        <dd>@Model.PrestamoId</dd>
+        <dt>Monto</dt>
+        <dd>@Model.Monto</dd>
+        <dt>Fecha de Pago</dt>
+        <dd>@Model.FechaPago.ToShortDateString()</dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Volver a la lista", "Index", new { prestamoId = Model.PrestamoId })
+</p>

@@ -1,0 +1,24 @@
+﻿@model ProyectoSS.Models.Pago
+@{
+    ViewBag.Title = "Eliminar Pago";
+}
+<h2>Eliminar Pago</h2>
+<h3>¿Está seguro de eliminar este pago?</h3>
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>@Model.Id</dd>
+        <dt>Monto</dt>
+        <dd>@Model.Monto</dd>
+        <dt>Fecha de Pago</dt>
+        <dd>@Model.FechaPago.ToShortDateString()</dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+@Html.ActionLink("Cancelar", "Index", new { prestamoId = Model.PrestamoId })
+    }
+</div>

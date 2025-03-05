@@ -1,0 +1,129 @@
+﻿@model ProyectoSS.Models.Usuario
+
+@{
+    ViewBag.Title = "Editar Usuario";
+}
+
+<!-- Estilos CSS -->
+<style>
+    /* Centrar el formulario en la pantalla */
+    .form-container {
+        width: 50%; /* Controla el ancho del formulario */
+        margin: 0 auto; /* Centra el formulario horizontalmente */
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Título del formulario */
+        .form-container h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+    /* Estilo para el formulario */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Estilo para las etiquetas del formulario */
+    .control-label {
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Estilo para los campos de entrada */
+    .form-control {
+        width: 100%; /* Hace que los campos de texto se extiendan todo el ancho disponible */
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    /* Estilo para el botón de envío */
+    .btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+    /* Estilo para el enlace de acción */
+    .action-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .action-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+            .action-link a:hover {
+                text-decoration: underline;
+            }
+
+    /* Estilo para los mensajes de validación */
+    .text-danger {
+        font-size: 12px;
+        color: #e74c3c;
+    }
+</style>
+
+<!-- Contenedor del formulario -->
+<div class="form-container">
+    <h2>Editar Usuario</h2>
+    @using (Html.BeginForm("Editar", "GestionUsuarios", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.IdUsuario)
+        <div class="form-horizontal">
+            <!-- Nombre -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombres, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Nombres, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaNacimiento, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.FechaNacimiento, new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Correo -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Correo, new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", type = "email" })
+                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- Botones de Submit y Cancelar -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                @Html.ActionLink("Cancelar", "EditarUsuarios", "GestionUsuarios", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Enlace para volver -->
+<div class="action-link">
+    @Html.ActionLink("Volver a la lista", "EditarUsuarios", "GestionUsuarios")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

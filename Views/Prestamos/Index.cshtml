@@ -1,0 +1,169 @@
+﻿@model IEnumerable<ProyectoSS.Models.Prestamo>
+@{
+    ViewBag.Title = "Listado de Préstamos";
+    var usuario = (ProyectoSS.Models.Usuario)Session["usuario"];
+    bool esAdmin = (usuario != null && usuario.Rol == 1);
+}
+
+<!-- Estilos CSS -->
+<style>
+    /* Contenedor para el listado de préstamos */
+    .table-container {
+        width: 80%;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Título de la página */
+        .table-container h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* Botón para solicitar un nuevo préstamo */
+        .table-container p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .table-container a {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+            .table-container a:hover {
+                background-color: #2980b9;
+            }
+
+    /* Estilo para la tabla */
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e1e8f0;
+        }
+
+        /* Estilo para los enlaces de acciones */
+        .table .actions a {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-right: 15px; /* Aumentar el margen para separar los botones */
+            padding: 6px 12px; /* Agregar un poco de relleno a los botones para hacerlos más accesibles */
+            border-radius: 4px; /* Bordes redondeados */
+            background-color: #3498db; /* Botones con fondo azul */
+            display: inline-block; /* Asegurarse de que los botones estén en línea */
+        }
+
+            .table .actions a:hover {
+                text-decoration: underline;
+                background-color: #2980b9; /* Color de fondo al pasar el ratón */
+            }
+
+        /* Ajustar la columna de "Acciones" para que los botones no se amontonen */
+        .table td.actions {
+            white-space: nowrap; /* Evitar que los botones se acomoden en varias líneas */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Si hay muchos botones, agregar puntos suspensivos */
+        }
+
+
+    /* Estilo para la columna "Estado" */
+    .estado {
+        font-weight: bold;
+    }
+</style>
+<script>
+    // Deshabilitar la tecla F12
+    document.addEventListener("keydown", function(e) {
+        // F12 y las combinaciones Ctrl + Shift + I
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+            alert("La inspección está deshabilitada.");
+        }
+    });
+
+    // Deshabilitar clic derecho (con el menú contextual)
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+        alert("El clic derecho está deshabilitado.");
+    });
+</script>
+
+<!-- Contenedor de la tabla -->
+<div class="table-container">
+    <h2>Listado de Préstamos</h2>
+    <br>
+    <br>
+    <p>
+        @Html.ActionLink("Solicitar nuevo Préstamo", "Create")
+    </p>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Monto</th>
+                <th>Plazo (meses)</th>
+                <th>Tasa de Interés</th>
+                <th>Tipo de Pago</th>
+                <th>Fecha Solicitud</th>
+                <th>Estado</th>
+                <th>Saldo Pendiente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Monto</td>
+                    <td>@item.Plazo</td>
+                    <td>@item.TasaInteres</td>
+                    <td>@item.TipoPago</td>
+                    <td>@item.FechaSolicitud.ToShortDateString()</td>
+                    <td class="estado">@item.Estado</td>
+                    <td>@item.SaldoPendiente.ToString("C")</td>
+                    <td class="actions">
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id })
+                        @if (esAdmin)
+                        {
+                            @: | @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                            @: | @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
